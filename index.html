@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beplantingsplan — Kleurrijke Border</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f0f4f0; font-family: sans-serif; min-height: 100vh; padding: 16px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    const seasons = ["Lente", "Zomer", "Herfst", "Winter"];
+    const seasonColors = { Lente: "#a8e6cf", Zomer: "#ffd93d", Herfst: "#ff8b42", Winter: "#b8d4e8" };
+
+    const plants = [
+      { id:1,  name:"Veronicastrum",   color:"#9b59b6", row:"achter", pos:0,   seasons:["Zomer"],          height:"80cm", bloom:"Juli–aug",  tip:"Indrukwekkend verticaal accent",           isNew:false, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Veronicastrum_virginicum1.jpg/640px-Veronicastrum_virginicum1.jpg" },
+      { id:2,  name:"Echinacea",       color:"#e74c3c", row:"achter", pos:1,   seasons:["Zomer","Herfst"], height:"60cm", bloom:"Juli–sept", tip:"Trekt vlinders aan",                       isNew:false, img:"https://whiteflowerfarm.com/mas_assets/cache/image/b/5/3/f/46143.Jpg" },
+      { id:3,  name:"Helenium",        color:"#e67e22", row:"achter", pos:2,   seasons:["Zomer","Herfst"], height:"70cm", bloom:"Aug–okt",   tip:"Warme herfstkleuren",                      isNew:false, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Helenium_autumnale_2.jpg/640px-Helenium_autumnale_2.jpg" },
+      { id:4,  name:"Aster",           color:"#8e44ad", row:"achter", pos:3,   seasons:["Herfst"],         height:"60cm", bloom:"Sept–nov",  tip:"Laatste kleur van het jaar",               isNew:false, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Aster_novi-belgii_group_blaue_donau_1.jpg/640px-Aster_novi-belgii_group_blaue_donau_1.jpg" },
+      { id:5,  name:"Salvia nemorosa", color:"#2980b9", row:"midden", pos:0,   seasons:["Zomer"],          height:"50cm", bloom:"Juni–aug",  tip:"Herbloei na terugsnoeien",                 isNew:false, img:"https://www.siteone.com/content/dam/siteone/product-images/plants/salvia-nemorosa-blue-bouquetta-woodland-sage-1.jpg" },
+      { id:6,  name:"Achillea",        color:"#f1c40f", row:"midden", pos:1,   seasons:["Zomer"],          height:"60cm", bloom:"Juni–sept", tip:"Droogtebestendig",                         isNew:false, img:"https://www.thompson-morgan.com/medias/sys_master/images/h60/hb8/9266479325214/10178TM-Achillea-millefolium-Skysail-Yellow-1.jpg" },
+      { id:7,  name:"Sedum",           color:"#e91e8c", row:"midden", pos:2,   seasons:["Herfst"],         height:"40cm", bloom:"Aug–okt",   tip:"Bijenmagneet",                             isNew:false, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sedum_spectabile_%27Brilliant%27.jpg/640px-Sedum_spectabile_%27Brilliant%27.jpg" },
+      { id:8,  name:"Skimmia",         color:"#c0392b", row:"midden", pos:3,   seasons:["Winter"],         height:"50cm", bloom:"Dec–feb",   tip:"Rode knoppen heel de winter",              isNew:false, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Skimmia_japonica2.jpg/640px-Skimmia_japonica2.jpg" },
+      { id:9,  name:"Helleborus",      color:"#fd79a8", row:"voor",   pos:0,   seasons:["Lente","Winter"], height:"40cm", bloom:"Jan–apr",   tip:"Bloeit in de winter!",                     isNew:false, img:"https://dennis7dees.com/wp-content/uploads/hellebores-blog-01.jpg" },
+      { id:10, name:"Geranium Rozanne",color:"#6c5ce7", row:"voor",   pos:1,   seasons:["Zomer","Herfst"], height:"30cm", bloom:"Mei–okt",   tip:"Bloeit enorm lang",                        isNew:false, img:"https://wilsonnurseries.com/wp-content/uploads/2020/03/Geranium-Rozanne-1.jpg" },
+      { id:11, name:"Carex",           color:"#00b894", row:"voor",   pos:2,   seasons:["Winter","Lente"], height:"30cm", bloom:"Altijd groen",tip:"Bronskleurig siergras",                  isNew:false, img:"https://norfolkcottagegarden.co.uk/wp-content/uploads/2021/02/Carex-comans-Bronze-1.jpg" },
+      { id:12, name:"Muscari",         color:"#0984e3", row:"voor",   pos:3,   seasons:["Lente"],          height:"15cm", bloom:"Mrt–apr",   tip:"Plant bollen in oktober",                  isNew:false, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Muscari_botryoides.jpg/640px-Muscari_botryoides.jpg" },
+      { id:13, name:"Tulpen",          color:"#d63031", row:"voor",   pos:3.8, seasons:["Lente"],          height:"40cm", bloom:"Apr–mei",   tip:"Plant bollen in oktober",                  isNew:false, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Simple_Tulips.jpg/640px-Simple_Tulips.jpg" },
+      { id:14, name:"Nepeta",          color:"#74b9ff", row:"achter", pos:4,   seasons:["Zomer","Herfst"], height:"50cm", bloom:"Juni–sept", tip:"Lichtblauw, geurt heerlijk, bijen dol op", isNew:true,  img:"https://piedmontmastergardeners.org/wp-content/uploads/2021/05/Catmint-1.jpg" },
+      { id:15, name:"Campanula",       color:"#a29bfe", row:"voor",   pos:4.5, seasons:["Zomer"],          height:"25cm", bloom:"Juni–aug",  tip:"Lila klokjesbloem, laag en spreidend",     isNew:true,  img:"https://www.millernurseries.com/sites/default/files/styles/product_full/public/products/Campanula-carpatica-Pearl-Light-Blue.jpg" },
+      { id:16, name:"Digitalis geel",  color:"#fdcb6e", row:"achter", pos:4.9, seasons:["Zomer"],          height:"80cm", bloom:"Juni–juli", tip:"Lichtgele vingerhoedskruid, statig accent", isNew:true,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Digitalis_grandiflora.jpg/640px-Digitalis_grandiflora.jpg" },
+      { id:17, name:"Anthemis",        color:"#ffeaa7", row:"midden", pos:4.2, seasons:["Zomer"],          height:"50cm", bloom:"Juni–aug",  tip:"Lichtgele margriet, luchtig en vrolijk",   isNew:true,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Anthemis_tinctoria_EC_Buxton.jpg/640px-Anthemis_tinctoria_EC_Buxton.jpg" },
+    ];
+
+    const plantingSchedule = [
+      { when:"Volgend weekend (april)", color:"#00b894", ids:[9,10,11,8,15,14], note:"Direct planten — vorst is vrijwel voorbij" },
+      { when:"Mei (na 15 mei)",         color:"#ffd93d", ids:[2,6,1,3,7,4,16,17], note:"Na 15 mei — geen vorstrisico meer" },
+      { when:"Oktober (herfst)",        color:"#ff8b42", ids:[12,13], note:"Bollen altijd in de herfst planten voor lentebloeiers" },
+    ];
+
+    const rowLabels = { achter:"🌿 Achter (hoog)", midden:"🌸 Midden", voor:"🌱 Voor (laag)" };
+    const rowY = { achter:65, midden:185, voor:300 };
+
+    function GardenPlan() {
+      const [selected, setSelected] = useState(null);
+      const [activeSeason, setActiveSeason] = useState("Alle");
+      const [showNew, setShowNew] = useState(false);
+      const [view, setView] = useState("visual");
+
+      const filtered = (activeSeason === "Alle" ? plants : plants.filter(p => p.seasons.includes(activeSeason)))
+        .filter(p => !showNew || p.isNew);
+
+      return (
+        <div style={{ fontFamily:"sans-serif", maxWidth:820, margin:"0 auto", padding:16, background:"#f9f9f9", borderRadius:16 }}>
+          <h2 style={{ textAlign:"center", color:"#2d3436", marginBottom:2 }}>🌸 Beplantingsplan — Kleurrijke Border</h2>
+          <p style={{ textAlign:"center", color:"#636e72", fontSize:13, marginBottom:12 }}>Eindhoven · Sterjasmijn als achtergrond · 4 seizoenen kleur</p>
+
+          <div style={{ textAlign:"center", marginBottom:12 }}>
+            <span style={{ background:"#fdcb6e", borderRadius:20, padding:"4px 14px", fontSize:13, fontWeight:"bold", color:"#2d3436" }}>
+              ✨ 4 lichte kleuren toegevoegd!
+            </span>
+          </div>
+
+          <div style={{ display:"flex", gap:8, justifyContent:"center", marginBottom:14, flexWrap:"wrap" }}>
+            {[["visual","🗺 Indeling"],["gallery","🖼 Plantengids"],["schema","📅 Aanplantschema"]].map(([v,l]) => (
+              <button key={v} onClick={() => setView(v)}
+                style={{ padding:"8px 16px", borderRadius:20, border:"none", cursor:"pointer",
+                  background:view===v?"#2d3436":"#dfe6e9", color:view===v?"white":"#636e72",
+                  fontWeight:view===v?"bold":"normal", fontSize:13 }}>
+                {l}
+              </button>
+            ))}
+          </div>
+
+          {view === "visual" && (
+            <>
+              <div style={{ display:"flex", gap:6, justifyContent:"center", marginBottom:10, flexWrap:"wrap" }}>
+                {["Alle",...seasons].map(s => (
+                  <button key={s} onClick={() => setActiveSeason(s)}
+                    style={{ padding:"5px 12px", borderRadius:20, border:"none", cursor:"pointer",
+                      background:activeSeason===s?(seasonColors[s]||"#2d3436"):"#dfe6e9",
+                      color:"#2d3436", fontWeight:activeSeason===s?"bold":"normal", fontSize:12 }}>
+                    {s}
+                  </button>
+                ))}
+                <button onClick={() => setShowNew(!showNew)}
+                  style={{ padding:"5px 12px", borderRadius:20, border:"2px solid #fdcb6e", cursor:"pointer",
+                    background:showNew?"#fdcb6e":"white", color:"#2d3436", fontSize:12, fontWeight:showNew?"bold":"normal" }}>
+                  ✨ Alleen nieuw
+                </button>
+              </div>
+
+              <div style={{ background:"white", borderRadius:12, padding:12, marginBottom:16 }}>
+                <div style={{ background:"linear-gradient(90deg,#27ae60,#2ecc71)", borderRadius:8,
+                  padding:10, textAlign:"center", color:"white", fontWeight:"bold", marginBottom:8 }}>
+                  🌿 STERJASMIJN — blijft staan
+                </div>
+                <svg width="100%" viewBox="0 0 760 400" style={{ display:"block" }}>
+                  {Object.entries(rowY).map(([row,y]) => (
+                    <g key={row}>
+                      <rect x={6} y={y-48} width={748} height={110} rx={8}
+                        fill={row==="achter"?"#ffeaa7":row==="midden"?"#dfe6e9":"#b2bec322"} opacity={0.5}/>
+                      <text x={12} y={y-28} fontSize={11} fill="#636e72" fontStyle="italic">{rowLabels[row]}</text>
+                    </g>
+                  ))}
+                  {filtered.map(p => {
+                    const x = 45 + p.pos * 132, y = rowY[p.row], isSel = selected?.id === p.id;
+                    return (
+                      <g key={p.id} onClick={() => setSelected(isSel?null:p)} style={{ cursor:"pointer" }}>
+                        {p.isNew && <circle cx={x} cy={y} r={38} fill="#fdcb6e" opacity={0.4}/>}
+                        <circle cx={x} cy={y} r={isSel?35:30} fill={p.color} opacity={0.9}
+                          stroke={isSel?"#2d3436":p.isNew?"#fdcb6e":"white"} strokeWidth={isSel?3:p.isNew?3:2}/>
+                        {p.isNew && <text x={x+22} y={y-22} fontSize={12}>✨</text>}
+                        <text x={x} y={y-3} textAnchor="middle" fontSize={8} fill="white" fontWeight="bold">{p.name.split(" ")[0]}</text>
+                        <text x={x} y={y+9} textAnchor="middle" fontSize={7} fill="white">{p.name.split(" ")[1]||""}</text>
+                        <text x={x} y={y+48} textAnchor="middle" fontSize={9} fill="#636e72">{p.height}</text>
+                      </g>
+                    );
+                  })}
+                </svg>
+                {selected && (
+                  <div style={{ display:"flex", gap:12, background:"#f5f6fa", borderRadius:10, padding:12,
+                    border:`3px solid ${selected.color}`, marginTop:8, flexWrap:"wrap", alignItems:"flex-start" }}>
+                    <img src={selected.img} alt={selected.name} onError={e=>e.target.style.display='none'}
+                      style={{ width:100, height:100, objectFit:"cover", borderRadius:8, flexShrink:0 }}/>
+                    <div>
+                      <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                        <strong style={{ color:selected.color, fontSize:16 }}>{selected.name}</strong>
+                        {selected.isNew && <span style={{ background:"#fdcb6e", borderRadius:10, padding:"2px 8px", fontSize:11 }}>✨ Nieuw</span>}
+                      </div>
+                      <div style={{ display:"flex", gap:12, marginTop:6, flexWrap:"wrap", fontSize:13 }}>
+                        <span>🌸 <b>{selected.bloom}</b></span>
+                        <span>📏 <b>{selected.height}</b></span>
+                        <span>🗓 <b>{selected.seasons.join(", ")}</b></span>
+                      </div>
+                      <div style={{ marginTop:6, color:"#636e72", fontSize:13 }}>💡 {selected.tip}</div>
+                    </div>
+                  </div>
+                )}
+                {!selected && <p style={{ textAlign:"center", color:"#b2bec3", fontSize:12, marginTop:8 }}>Tik op een plant voor info en foto</p>}
+              </div>
+            </>
+          )}
+
+          {view === "gallery" && (
+            <>
+              <h3 style={{ color:"#74b9ff", margin:"0 0 10px 0" }}>✨ Nieuw — Lichte kleuren</h3>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))", gap:12, marginBottom:20 }}>
+                {plants.filter(p=>p.isNew).map(p => (
+                  <div key={p.id} style={{ background:"white", borderRadius:12, overflow:"hidden",
+                    boxShadow:"0 2px 8px rgba(0,0,0,0.1)", border:"3px solid #fdcb6e" }}>
+                    <img src={p.img} alt={p.name} onError={e=>e.target.style.display='none'}
+                      style={{ width:"100%", height:130, objectFit:"cover", display:"block" }}/>
+                    <div style={{ padding:"8px 10px" }}>
+                      <div style={{ fontWeight:"bold", fontSize:13, color:p.color }}>✨ {p.name}</div>
+                      <div style={{ fontSize:11, color:"#636e72", marginTop:2 }}>🌸 {p.bloom} · 📏 {p.height}</div>
+                      <div style={{ marginTop:4, display:"flex", flexWrap:"wrap", gap:3 }}>
+                        {p.seasons.map(s=><span key={s} style={{ fontSize:10, background:seasonColors[s], borderRadius:8, padding:"1px 6px" }}>{s}</span>)}
+                      </div>
+                      <div style={{ fontSize:11, color:"#636e72", marginTop:4, fontStyle:"italic" }}>💡 {p.tip}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <h3 style={{ color:"#2d3436", margin:"0 0 10px 0" }}>Alle planten</h3>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))", gap:10 }}>
+                {plants.filter(p=>!p.isNew).map(p => (
+                  <div key={p.id} style={{ background:"white", borderRadius:12, overflow:"hidden",
+                    boxShadow:"0 1px 6px rgba(0,0,0,0.07)", border:`2px solid ${p.color}33` }}>
+                    <img src={p.img} alt={p.name} onError={e=>e.target.style.display='none'}
+                      style={{ width:"100%", height:110, objectFit:"cover", display:"block" }}/>
+                    <div style={{ padding:"8px 10px" }}>
+                      <div style={{ fontWeight:"bold", fontSize:12, color:p.color }}>{p.name}</div>
+                      <div style={{ fontSize:11, color:"#636e72" }}>🌸 {p.bloom} · 📏 {p.height}</div>
+                      <div style={{ marginTop:4, display:"flex", flexWrap:"wrap", gap:3 }}>
+                        {p.seasons.map(s=><span key={s} style={{ fontSize:10, background:seasonColors[s], borderRadius:8, padding:"1px 6px" }}>{s}</span>)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {view === "schema" && (
+            <div>
+              {plantingSchedule.map((s,i) => (
+                <div key={i} style={{ background:"white", borderRadius:12, padding:16, marginBottom:14,
+                  borderLeft:`5px solid ${s.color}`, boxShadow:"0 2px 8px rgba(0,0,0,0.07)" }}>
+                  <strong style={{ color:s.color, fontSize:16 }}>{s.when}</strong>
+                  <div style={{ display:"flex", flexWrap:"wrap", gap:8, margin:"10px 0" }}>
+                    {s.ids.map(id => {
+                      const pl = plants.find(p=>p.id===id);
+                      if (!pl) return null;
+                      return (
+                        <div key={id} style={{ display:"flex", alignItems:"center", gap:6,
+                          background:pl.isNew?"#fff9e6":"#f5f6fa",
+                          border:pl.isNew?"2px solid #fdcb6e":"2px solid transparent",
+                          borderRadius:10, padding:"4px 10px", fontSize:13 }}>
+                          <img src={pl.img} alt={pl.name} onError={e=>e.target.style.display='none'}
+                            style={{ width:28, height:28, borderRadius:6, objectFit:"cover" }}/>
+                          <span>{pl.isNew?"✨ ":""}{pl.name}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div style={{ fontSize:12, color:"#636e72", background:"#f5f6fa", borderRadius:8, padding:"6px 10px" }}>ℹ️ {s.note}</div>
+                </div>
+              ))}
+              <div style={{ background:"#fff3cd", borderRadius:12, padding:14, border:"1px solid #ffc107" }}>
+                <strong>💡 Tips voor volgend weekend</strong>
+                <ul style={{ margin:"8px 0 0 0", padding:"0 0 0 18px", fontSize:13, color:"#636e72", lineHeight:1.8 }}>
+                  <li>Eerst de bak leegmaken en munt volledig uitgraven</li>
+                  <li>Verse potgrond bijvullen</li>
+                  <li>Sterjasmijn netjes vastbinden aan het gaas</li>
+                  <li>De vroege planten direct aanplanten — inclusief Nepeta en Campanula!</li>
+                  <li>Goed aangieten na het planten</li>
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<GardenPlan />);
+  </script>
+</body>
+</html>
