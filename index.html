@@ -25,28 +25,26 @@
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
     .pcard{background:white;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.09);cursor:pointer;transition:transform .2s,box-shadow .2s}
     .pcard:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.14)}
-    .pcard img{width:100%;height:160px;object-fit:cover;display:block}
+    .pcard-img{width:100%;height:160px;object-fit:cover;display:block;background:#f0f4f0}
+    .pcard-placeholder{width:100%;height:160px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#f0f4f0,#e8f5e9)}
     .pinfo{padding:14px}
     .pname{font-size:1.1rem;font-weight:700;margin-bottom:4px}
     .pmeta{font-size:.9rem;color:#636e72;margin-bottom:6px}
-    .ptip{font-size:.9rem;color:#555;font-style:italic}
+    .ptip{font-size:.9rem;color:#555;font-style:italic;margin-top:6px}
     .sbadge{display:inline-block;font-size:.8rem;font-weight:700;border-radius:12px;padding:2px 10px;margin:2px 2px 0 0}
-    .newbadge{background:#fdcb6e;color:#2d3436;font-size:.8rem;font-weight:700;border-radius:10px;padding:2px 8px;margin-left:6px}
-    .detail{display:flex;gap:20px;padding:20px;border-radius:14px;margin-bottom:20px;flex-wrap:wrap;align-items:flex-start;display:none}
+    .detail{display:none;gap:20px;padding:20px;border-radius:14px;margin-bottom:20px;flex-wrap:wrap;align-items:flex-start}
     .detail.show{display:flex}
-    .detail img{width:140px;height:140px;object-fit:cover;border-radius:12px;flex-shrink:0}
+    .detail-img{width:140px;height:140px;object-fit:cover;border-radius:12px;flex-shrink:0;background:#f0f4f0}
+    .detail-placeholder{width:140px;height:140px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,#f0f4f0,#e8f5e9);display:flex;align-items:center;justify-content:center;font-size:56px}
     .detail-info{flex:1;min-width:180px}
     .closebtn{margin-top:12px;padding:6px 16px;border-radius:20px;border:none;background:#dfe6e9;cursor:pointer;font-family:'Lato',sans-serif;font-size:.95rem}
-    /* Visual */
     .visual-wrap{background:white;border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
     .jasmine-bar{background:linear-gradient(90deg,#27ae60,#2ecc71);border-radius:10px;padding:14px 20px;text-align:center;color:white;font-weight:700;font-size:1.1rem;margin-bottom:16px}
-    /* Schema */
     .scard{background:white;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 3px 12px rgba(0,0,0,.07)}
     .sitems{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
-    .sitem{display:flex;align-items:center;gap:10px;border-radius:12px;padding:8px 14px;font-size:1rem;font-weight:600}
-    .sitem img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+    .sitem{display:flex;align-items:center;gap:10px;background:#f5f6fa;border-radius:12px;padding:8px 14px;font-size:1rem;font-weight:600}
+    .sitem-img{width:36px;height:36px;border-radius:8px;object-fit:cover;background:#f0f4f0}
     .snote{background:#f5f6fa;border-radius:10px;padding:10px 14px;color:#555}
-    /* Todo & Shop */
     .progress-wrap{background:white;border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 3px 12px rgba(0,0,0,.07)}
     .prog-bar{background:#e0e0e0;border-radius:8px;height:10px;margin-top:8px;overflow:hidden}
     .prog-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#00b894,#00cec9);transition:width .4s}
@@ -67,7 +65,7 @@
     .shrow.bought{background:#f0fff4;border-color:#00b89444;opacity:.7}
     .shrow.bought .ctxt{text-decoration:line-through;color:#aaa}
     .shrow.bought .price{text-decoration:line-through;color:#aaa}
-    .shimg{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0}
+    .shimg{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#f0f4f0}
     .shicon{width:44px;height:44px;border-radius:8px;background:#f0f4f0;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
     .price{font-size:1rem;font-weight:700;color:#00b894;margin-left:auto;white-space:nowrap}
     .total-bar{background:linear-gradient(90deg,#00b894,#00cec9);color:white;border-radius:12px;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:20px}
@@ -96,20 +94,18 @@
     <button class="tab" onclick="showView('shop')">🛒 Boodschappen</button>
   </div>
 
-  <!-- GALLERY -->
   <div id="view-gallery" class="view active">
-    <div class="filters" id="season-filters">
+    <div class="filters">
       <button class="fbtn active" style="background:#c8f7e4" onclick="filterSeason('Alle',this)">🌿 Alle seizoenen</button>
-      <button class="fbtn" style="" onclick="filterSeason('Lente',this)">Lente</button>
-      <button class="fbtn" style="" onclick="filterSeason('Zomer',this)">Zomer</button>
-      <button class="fbtn" style="" onclick="filterSeason('Herfst',this)">Herfst</button>
-      <button class="fbtn" style="" onclick="filterSeason('Winter',this)">Winter</button>
+      <button class="fbtn" onclick="filterSeason('Lente',this)">Lente</button>
+      <button class="fbtn" onclick="filterSeason('Zomer',this)">Zomer</button>
+      <button class="fbtn" onclick="filterSeason('Herfst',this)">Herfst</button>
+      <button class="fbtn" onclick="filterSeason('Winter',this)">Winter</button>
     </div>
     <div id="detail-panel" class="detail"></div>
     <div class="grid" id="plant-grid"></div>
   </div>
 
-  <!-- VISUAL -->
   <div id="view-visual" class="view">
     <div class="visual-wrap">
       <div class="jasmine-bar">🌿 STERJASMIJN — blijft staan als groene achtergrond</div>
@@ -119,13 +115,8 @@
     </div>
   </div>
 
-  <!-- SCHEMA -->
-  <div id="view-schema" class="view" id="schema-view"></div>
-
-  <!-- TODO -->
+  <div id="view-schema" class="view"></div>
   <div id="view-todo" class="view"></div>
-
-  <!-- SHOP -->
   <div id="view-shop" class="view"></div>
 
   <p class="foot">🌿 Beplantingsplan Groenlostraat · Eindhoven · Gemaakt met Claude</p>
@@ -133,223 +124,230 @@
 
 <script>
 const SC = {Lente:"#a8e6cf",Zomer:"#ffd93d",Herfst:"#ff8b42",Winter:"#b8d4e8"};
+const EMOJI = {Lente:"🌷",Zomer:"🌻",Herfst:"🍂",Winter:"❄️"};
 
+// Alle afbeeldingen via Wikimedia Commons — maximaal betrouwbaar
 const PLANTS = [
-  {id:1, name:"Veronicastrum",    color:"#9b59b6",row:"achter",pos:0,  seasons:["Zomer"],          height:"80 cm",bloom:"Juli–aug", tip:"Indrukwekkend verticaal accent",isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Veronicastrum_virginicum1.jpg/640px-Veronicastrum_virginicum1.jpg"},
-  {id:2, name:"Echinacea",        color:"#e74c3c",row:"achter",pos:1,  seasons:["Zomer","Herfst"], height:"60 cm",bloom:"Juli–sept",tip:"Trekt vlinders en bijen aan",   isNew:false,img:"https://whiteflowerfarm.com/mas_assets/cache/image/b/5/3/f/46143.Jpg"},
-  {id:3, name:"Helenium",         color:"#e67e22",row:"achter",pos:2,  seasons:["Zomer","Herfst"], height:"70 cm",bloom:"Aug–okt",  tip:"Warme oranje herfstkleuren",    isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Helenium_autumnale_2.jpg/640px-Helenium_autumnale_2.jpg"},
-  {id:4, name:"Aster",            color:"#8e44ad",row:"achter",pos:3,  seasons:["Herfst"],         height:"60 cm",bloom:"Sept–nov", tip:"Laatste kleur van het jaar",    isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Aster_novi-belgii_group_blaue_donau_1.jpg/640px-Aster_novi-belgii_group_blaue_donau_1.jpg"},
-  {id:5, name:"Salvia nemorosa",  color:"#2980b9",row:"midden",pos:0,  seasons:["Zomer"],          height:"50 cm",bloom:"Juni–aug", tip:"Herbloei na terugsnoeien",      isNew:false,img:"https://www.siteone.com/content/dam/siteone/product-images/plants/salvia-nemorosa-blue-bouquetta-woodland-sage-1.jpg"},
-  {id:6, name:"Achillea",         color:"#f1c40f",row:"midden",pos:1,  seasons:["Zomer"],          height:"60 cm",bloom:"Juni–sept",tip:"Droogtebestendig",               isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Achillea_millefolium_-_yarrow_-_desc-_pink_flowers.jpg/640px-Achillea_millefolium_-_yarrow_-_desc-_pink_flowers.jpg"},
-  {id:7, name:"Sedum",            color:"#e91e8c",row:"midden",pos:2,  seasons:["Herfst"],         height:"40 cm",bloom:"Aug–okt",  tip:"Bijenmagneet",                  isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sedum_spectabile_%27Brilliant%27.jpg/640px-Sedum_spectabile_%27Brilliant%27.jpg"},
-  {id:8, name:"Skimmia",          color:"#c0392b",row:"midden",pos:3,  seasons:["Winter"],         height:"50 cm",bloom:"Dec–feb",  tip:"Rode knoppen heel de winter",   isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Skimmia_japonica2.jpg/640px-Skimmia_japonica2.jpg"},
-  {id:9, name:"Helleborus",       color:"#fd79a8",row:"voor",  pos:0,  seasons:["Lente","Winter"], height:"40 cm",bloom:"Jan–apr",  tip:"Bloeit al in de winter!",       isNew:false,img:"https://dennis7dees.com/wp-content/uploads/hellebores-blog-01.jpg"},
-  {id:10,name:"Geranium Rozanne", color:"#6c5ce7",row:"voor",  pos:1,  seasons:["Zomer","Herfst"], height:"30 cm",bloom:"Mei–okt",  tip:"Bloeit bijna 6 maanden",        isNew:false,img:"https://wilsonnurseries.com/wp-content/uploads/2020/03/Geranium-Rozanne-1.jpg"},
-  {id:11,name:"Carex",            color:"#00b894",row:"voor",  pos:2,  seasons:["Winter","Lente"], height:"30 cm",bloom:"Altijd",   tip:"Bronskleurig siergras",         isNew:false,img:"https://norfolkcottagegarden.co.uk/wp-content/uploads/2021/02/Carex-comans-Bronze-1.jpg"},
-  {id:12,name:"Muscari",          color:"#0984e3",row:"voor",  pos:3,  seasons:["Lente"],          height:"15 cm",bloom:"Mrt–apr",  tip:"Bollen planten in oktober",     isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Muscari_botryoides.jpg/640px-Muscari_botryoides.jpg"},
-  {id:13,name:"Tulpen",           color:"#d63031",row:"voor",  pos:3.8,seasons:["Lente"],          height:"40 cm",bloom:"Apr–mei",  tip:"Gemengde kleuren",              isNew:false,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Simple_Tulips.jpg/640px-Simple_Tulips.jpg"},
-  {id:14,name:"Nepeta",           color:"#74b9ff",row:"achter",pos:4,  seasons:["Zomer","Herfst"], height:"50 cm",bloom:"Juni–sept",tip:"Lichtblauw, bijen dol erop",    isNew:true, img:"https://sandysplants.com/wp-content/uploads/2020/07/Nepeta-faassenii-Purrsian-Blue-catmint-2.jpg"},
-  {id:15,name:"Campanula",        color:"#a29bfe",row:"voor",  pos:4.5,seasons:["Zomer"],          height:"25 cm",bloom:"Juni–aug", tip:"Lila klokjesbloem, spreidend",  isNew:true, img:"https://www.millernurseries.com/sites/default/files/styles/product_full/public/products/Campanula-carpatica-Pearl-Light-Blue.jpg"},
-  {id:16,name:"Digitalis geel",   color:"#fdcb6e",row:"achter",pos:4.9,seasons:["Zomer"],          height:"80 cm",bloom:"Juni–juli",tip:"Statig lichtgeel accent",        isNew:true, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Digitalis_grandiflora.jpg/640px-Digitalis_grandiflora.jpg"},
-  {id:17,name:"Anthemis",         color:"#e0c84a",row:"midden",pos:4.2,seasons:["Zomer"],          height:"50 cm",bloom:"Juni–aug", tip:"Lichtgele margriet, luchtig",   isNew:true, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Anthemis_tinctoria_EC_Buxton.jpg/640px-Anthemis_tinctoria_EC_Buxton.jpg"},
+  {id:1, name:"Veronicastrum",    color:"#9b59b6", row:"achter", pos:0,   seasons:["Zomer"],          height:"80 cm", bloom:"Juli–aug",  tip:"Indrukwekkend verticaal accent, trekt vlinders",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Veronicastrum_virginicum1.jpg/480px-Veronicastrum_virginicum1.jpg"},
+  {id:2, name:"Echinacea",        color:"#e74c3c", row:"achter", pos:1,   seasons:["Zomer","Herfst"], height:"60 cm", bloom:"Juli–sept", tip:"Trekt vlinders en bijen aan",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Echinacea_purpurea_PDB.jpg/480px-Echinacea_purpurea_PDB.jpg"},
+  {id:3, name:"Helenium",         color:"#e67e22", row:"achter", pos:2,   seasons:["Zomer","Herfst"], height:"70 cm", bloom:"Aug–okt",   tip:"Warme oranje en rode herfstkleuren",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Helenium_autumnale_2.jpg/480px-Helenium_autumnale_2.jpg"},
+  {id:4, name:"Aster",            color:"#8e44ad", row:"achter", pos:3,   seasons:["Herfst"],         height:"60 cm", bloom:"Sept–nov",  tip:"Laatste kleur van het jaar, bijen dol op",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Aster_novi-belgii_IMG_7640.jpg/480px-Aster_novi-belgii_IMG_7640.jpg"},
+  {id:5, name:"Salvia nemorosa",  color:"#2980b9", row:"midden", pos:0,   seasons:["Zomer"],          height:"50 cm", bloom:"Juni–aug",  tip:"Na terugsnoeien bloeit hij opnieuw",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Salvia_nemorosa_0001.JPG/480px-Salvia_nemorosa_0001.JPG"},
+  {id:6, name:"Achillea",         color:"#f1c40f", row:"midden", pos:1,   seasons:["Zomer"],          height:"60 cm", bloom:"Juni–sept", tip:"Droogtebestendig, lange bloeitijd",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Achillea_millefolium_20070601.jpg/480px-Achillea_millefolium_20070601.jpg"},
+  {id:7, name:"Sedum",            color:"#e91e8c", row:"midden", pos:2,   seasons:["Herfst"],         height:"40 cm", bloom:"Aug–okt",   tip:"Bijenmagneet, mooie herfstkleur",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sedum_spectabile_%27Brilliant%27.jpg/480px-Sedum_spectabile_%27Brilliant%27.jpg"},
+  {id:8, name:"Skimmia",          color:"#c0392b", row:"midden", pos:3,   seasons:["Winter"],         height:"50 cm", bloom:"Dec–feb",   tip:"Rode knoppen heel de winter door",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Skimmia_japonica1.jpg/480px-Skimmia_japonica1.jpg"},
+  {id:9, name:"Helleborus",       color:"#fd79a8", row:"voor",   pos:0,   seasons:["Lente","Winter"], height:"40 cm", bloom:"Jan–apr",   tip:"Bloeit al in de winter, zeer bijzonder",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Helleborus_orientalis_2.jpg/480px-Helleborus_orientalis_2.jpg"},
+  {id:10,name:"Geranium Rozanne", color:"#6c5ce7", row:"voor",   pos:1,   seasons:["Zomer","Herfst"], height:"30 cm", bloom:"Mei–okt",   tip:"Uitzonderlijk lange bloeitijd, bijna 6 maanden",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Geranium_Rozanne_01.jpg/480px-Geranium_Rozanne_01.jpg"},
+  {id:11,name:"Carex",            color:"#00b894", row:"voor",   pos:2,   seasons:["Winter","Lente"], height:"30 cm", bloom:"Altijd groen",tip:"Bronskleurig siergras het hele jaar",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Carex_comans.jpg/480px-Carex_comans.jpg"},
+  {id:12,name:"Muscari",          color:"#0984e3", row:"voor",   pos:3,   seasons:["Lente"],          height:"15 cm", bloom:"Mrt–apr",   tip:"Bollen planten in oktober voor lenteshow",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Muscari_botryoides.jpg/480px-Muscari_botryoides.jpg"},
+  {id:13,name:"Tulpen",           color:"#d63031", row:"voor",   pos:3.8, seasons:["Lente"],          height:"40 cm", bloom:"Apr–mei",   tip:"Gemengde kleuren voor een vrolijk voorjaar",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Simple_Tulips.jpg/480px-Simple_Tulips.jpg"},
+  {id:14,name:"Nepeta",           color:"#74b9ff", row:"achter", pos:4,   seasons:["Zomer","Herfst"], height:"50 cm", bloom:"Juni–sept", tip:"Lichtblauw, heerlijke geur, bijen dol erop",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Nepeta_x_faassenii2.jpg/480px-Nepeta_x_faassenii2.jpg"},
+  {id:15,name:"Campanula",        color:"#a29bfe", row:"voor",   pos:4.5, seasons:["Zomer"],          height:"25 cm", bloom:"Juni–aug",  tip:"Lila klokjesbloem, laag en spreidend",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Campanula_carpatica_1.jpg/480px-Campanula_carpatica_1.jpg"},
+  {id:16,name:"Digitalis geel",   color:"#fdcb6e", row:"achter", pos:4.9, seasons:["Zomer"],          height:"80 cm", bloom:"Juni–juli", tip:"Lichtgele vingerhoedskruid, statig verticaal accent",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Digitalis_grandiflora.jpg/480px-Digitalis_grandiflora.jpg"},
+  {id:17,name:"Anthemis",         color:"#c8a000", row:"midden", pos:4.2, seasons:["Zomer"],          height:"50 cm", bloom:"Juni–aug",  tip:"Lichtgele margriet, luchtig en vrolijk",
+   img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Anthemis_tinctoria_EC_Buxton.jpg/480px-Anthemis_tinctoria_EC_Buxton.jpg"},
 ];
 
 const TODO_ITEMS = [
-  {id:"t1", cat:"🧹 Opruimen",          text:"Bak volledig leegmaken",               sub:"Alle planten, stenen en oude wortels verwijderen"},
-  {id:"t2", cat:"🧹 Opruimen",          text:"Munt uitgraven inclusief alle wortels", sub:"Anders groeit hij terug — grondig doen!"},
-  {id:"t3", cat:"🧹 Opruimen",          text:"Sterjasmijn opsnoeien en vastbinden",   sub:"Dode takjes verwijderen, levende scheuten langs gaas leiden"},
-  {id:"t4", cat:"🧹 Opruimen",          text:"Dode bladeren en stengels verwijderen", sub:"Schoon begin geeft betere groei"},
-  {id:"t5", cat:"🌱 Grond voorbereiden",text:"Verse potgrond/compost inbrengen",      sub:"Minimaal 10 cm laag over de hele bak"},
-  {id:"t6", cat:"🌱 Grond voorbereiden",text:"Langzaamwerkende meststof mengen",      sub:"Bijv. Osmocote — door de bovenste 10 cm werken"},
-  {id:"t7", cat:"🌱 Grond voorbereiden",text:"Mulch aanbrengen na het planten",       sub:"Houdt vocht vast en remt onkruid"},
-  {id:"t8", cat:"🌸 Aanplanten april",  text:"Helleborus planten",                   sub:"Vooraan links — liefst wat schaduwrijker deel"},
-  {id:"t9", cat:"🌸 Aanplanten april",  text:"Geranium Rozanne planten",             sub:"Vooraan, spreidt zich mooi uit"},
-  {id:"t10",cat:"🌸 Aanplanten april",  text:"Carex planten",                        sub:"Vooraan — bronskleurig accent het hele jaar"},
-  {id:"t11",cat:"🌸 Aanplanten april",  text:"Skimmia planten",                      sub:"Midden, rode knoppen in de winter"},
-  {id:"t12",cat:"🌸 Aanplanten april",  text:"Nepeta planten",                       sub:"Achterin — lichtblauw, geurt heerlijk"},
-  {id:"t13",cat:"🌸 Aanplanten april",  text:"Campanula planten",                    sub:"Vooraan — lila klokjes, laag en spreidend"},
-  {id:"t14",cat:"🌿 Aanplanten mei",    text:"Echinacea, Helenium, Aster planten",   sub:"Na 15 mei — achterin de bak"},
-  {id:"t15",cat:"🌿 Aanplanten mei",    text:"Salvia, Achillea, Sedum planten",      sub:"Na 15 mei — midden in de bak"},
-  {id:"t16",cat:"🌿 Aanplanten mei",    text:"Veronicastrum, Digitalis, Anthemis",   sub:"Na 15 mei — achterin en midden"},
-  {id:"t17",cat:"🍂 Oktober",           text:"Tulpenbollen planten",                 sub:"Per 3 of 5 op verschillende plekken"},
-  {id:"t18",cat:"🍂 Oktober",           text:"Muscari bollen planten",               sub:"Vooraan — blauwe druifjes in het voorjaar"},
+  {id:"t1", cat:"🧹 Opruimen",           text:"Bak volledig leegmaken",                sub:"Alle planten, stenen en oude wortels verwijderen"},
+  {id:"t2", cat:"🧹 Opruimen",           text:"Munt uitgraven inclusief alle wortels",  sub:"Anders groeit hij terug — grondig doen!"},
+  {id:"t3", cat:"🧹 Opruimen",           text:"Sterjasmijn opsnoeien en vastbinden",    sub:"Dode takjes verwijderen, levende scheuten langs gaas leiden"},
+  {id:"t4", cat:"🧹 Opruimen",           text:"Dode bladeren en stengels verwijderen",  sub:"Schoon begin geeft betere groei"},
+  {id:"t5", cat:"🌱 Grond voorbereiden", text:"Verse potgrond/compost inbrengen",       sub:"Minimaal 10 cm laag over de hele bak"},
+  {id:"t6", cat:"🌱 Grond voorbereiden", text:"Langzaamwerkende meststof mengen",       sub:"Bijv. Osmocote — door de bovenste 10 cm werken"},
+  {id:"t7", cat:"🌱 Grond voorbereiden", text:"Mulch aanbrengen na het planten",        sub:"Houdt vocht vast en remt onkruid"},
+  {id:"t8", cat:"🌸 Aanplanten april",   text:"Helleborus planten",                    sub:"Vooraan links — liefst wat schaduwrijker deel"},
+  {id:"t9", cat:"🌸 Aanplanten april",   text:"Geranium Rozanne planten",              sub:"Vooraan, spreidt zich mooi uit"},
+  {id:"t10",cat:"🌸 Aanplanten april",   text:"Carex planten",                         sub:"Vooraan — bronskleurig accent het hele jaar"},
+  {id:"t11",cat:"🌸 Aanplanten april",   text:"Skimmia planten",                       sub:"Midden, rode knoppen in de winter"},
+  {id:"t12",cat:"🌸 Aanplanten april",   text:"Nepeta planten",                        sub:"Achterin — lichtblauw, geurt heerlijk"},
+  {id:"t13",cat:"🌸 Aanplanten april",   text:"Campanula planten",                     sub:"Vooraan — lila klokjes, laag en spreidend"},
+  {id:"t14",cat:"🌿 Aanplanten mei",     text:"Echinacea, Helenium, Aster planten",    sub:"Na 15 mei — achterin de bak"},
+  {id:"t15",cat:"🌿 Aanplanten mei",     text:"Salvia, Achillea, Sedum planten",       sub:"Na 15 mei — midden in de bak"},
+  {id:"t16",cat:"🌿 Aanplanten mei",     text:"Veronicastrum, Digitalis, Anthemis",    sub:"Na 15 mei — achterin en midden"},
+  {id:"t17",cat:"🍂 Oktober",            text:"Tulpenbollen planten",                  sub:"Per 3 of 5 op verschillende plekken"},
+  {id:"t18",cat:"🍂 Oktober",            text:"Muscari bollen planten",                sub:"Vooraan — blauwe druifjes in het voorjaar"},
 ];
 
 const SHOP_ITEMS = [
-  {id:"s1", cat:"🌸 Planten — april",  name:"Helleborus",              qty:"2 stuks", price:9.99,  img:"https://dennis7dees.com/wp-content/uploads/hellebores-blog-01.jpg"},
-  {id:"s2", cat:"🌸 Planten — april",  name:"Geranium Rozanne",        qty:"3 stuks", price:7.99,  img:"https://wilsonnurseries.com/wp-content/uploads/2020/03/Geranium-Rozanne-1.jpg"},
-  {id:"s3", cat:"🌸 Planten — april",  name:"Carex (siergras brons)",  qty:"2 stuks", price:6.99,  img:"https://norfolkcottagegarden.co.uk/wp-content/uploads/2021/02/Carex-comans-Bronze-1.jpg"},
-  {id:"s4", cat:"🌸 Planten — april",  name:"Skimmia japonica",        qty:"1 stuk",  price:12.99, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Skimmia_japonica2.jpg/640px-Skimmia_japonica2.jpg"},
-  {id:"s5", cat:"🌸 Planten — april",  name:"Nepeta (kattenkruid)",    qty:"2 stuks", price:6.99,  img:"https://sandysplants.com/wp-content/uploads/2020/07/Nepeta-faassenii-Purrsian-Blue-catmint-2.jpg"},
-  {id:"s6", cat:"🌸 Planten — april",  name:"Campanula",               qty:"3 stuks", price:5.99,  img:"https://www.millernurseries.com/sites/default/files/styles/product_full/public/products/Campanula-carpatica-Pearl-Light-Blue.jpg"},
-  {id:"s7", cat:"🌿 Planten — mei",    name:"Echinacea (zonnehoed)",   qty:"3 stuks", price:7.99,  img:"https://whiteflowerfarm.com/mas_assets/cache/image/b/5/3/f/46143.Jpg"},
-  {id:"s8", cat:"🌿 Planten — mei",    name:"Helenium",                qty:"2 stuks", price:7.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Helenium_autumnale_2.jpg/640px-Helenium_autumnale_2.jpg"},
-  {id:"s9", cat:"🌿 Planten — mei",    name:"Aster",                   qty:"2 stuks", price:6.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Aster_novi-belgii_group_blaue_donau_1.jpg/640px-Aster_novi-belgii_group_blaue_donau_1.jpg"},
-  {id:"s10",cat:"🌿 Planten — mei",    name:"Salvia nemorosa",         qty:"3 stuks", price:6.99,  img:"https://www.siteone.com/content/dam/siteone/product-images/plants/salvia-nemorosa-blue-bouquetta-woodland-sage-1.jpg"},
-  {id:"s11",cat:"🌿 Planten — mei",    name:"Achillea (duizendblad)",  qty:"2 stuks", price:5.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Achillea_millefolium_-_yarrow_-_desc-_pink_flowers.jpg/640px-Achillea_millefolium_-_yarrow_-_desc-_pink_flowers.jpg"},
-  {id:"s12",cat:"🌿 Planten — mei",    name:"Sedum spectabile",        qty:"2 stuks", price:6.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sedum_spectabile_%27Brilliant%27.jpg/640px-Sedum_spectabile_%27Brilliant%27.jpg"},
-  {id:"s13",cat:"🌿 Planten — mei",    name:"Veronicastrum",           qty:"1 stuk",  price:8.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Veronicastrum_virginicum1.jpg/640px-Veronicastrum_virginicum1.jpg"},
-  {id:"s14",cat:"🌿 Planten — mei",    name:"Digitalis geel",          qty:"2 stuks", price:5.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Digitalis_grandiflora.jpg/640px-Digitalis_grandiflora.jpg"},
-  {id:"s15",cat:"🌿 Planten — mei",    name:"Anthemis",                qty:"2 stuks", price:5.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Anthemis_tinctoria_EC_Buxton.jpg/640px-Anthemis_tinctoria_EC_Buxton.jpg"},
-  {id:"s16",cat:"🍂 Bollen — oktober", name:"Tulpenbollen gemengd",    qty:"30 stuks",price:8.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Simple_Tulips.jpg/640px-Simple_Tulips.jpg"},
-  {id:"s17",cat:"🍂 Bollen — oktober", name:"Muscari bollen",          qty:"20 stuks",price:4.99,  img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Muscari_botryoides.jpg/640px-Muscari_botryoides.jpg"},
-  {id:"s18",cat:"🛒 Materialen",       name:"Potgrond / compost",      qty:"2 zakken",price:11.98, img:null},
-  {id:"s19",cat:"🛒 Materialen",       name:"Langzaamwerkende meststof",qty:"1 pak",  price:9.99,  img:null},
-  {id:"s20",cat:"🛒 Materialen",       name:"Boomschors / mulch",      qty:"1 zak",   price:7.99,  img:null},
-  {id:"s21",cat:"🛒 Materialen",       name:"Snoeischaar",             qty:"1 stuk",  price:14.99, img:null},
-  {id:"s22",cat:"🛒 Materialen",       name:"Plantenlabels + stift",   qty:"1 set",   price:3.99,  img:null},
+  {id:"s1", cat:"🌸 Planten — april",   name:"Helleborus",               qty:"2 stuks",  price:9.99,  pid:9},
+  {id:"s2", cat:"🌸 Planten — april",   name:"Geranium Rozanne",         qty:"3 stuks",  price:7.99,  pid:10},
+  {id:"s3", cat:"🌸 Planten — april",   name:"Carex (siergras brons)",   qty:"2 stuks",  price:6.99,  pid:11},
+  {id:"s4", cat:"🌸 Planten — april",   name:"Skimmia japonica",         qty:"1 stuk",   price:12.99, pid:8},
+  {id:"s5", cat:"🌸 Planten — april",   name:"Nepeta (kattenkruid)",     qty:"2 stuks",  price:6.99,  pid:14},
+  {id:"s6", cat:"🌸 Planten — april",   name:"Campanula",                qty:"3 stuks",  price:5.99,  pid:15},
+  {id:"s7", cat:"🌿 Planten — mei",     name:"Echinacea (zonnehoed)",    qty:"3 stuks",  price:7.99,  pid:2},
+  {id:"s8", cat:"🌿 Planten — mei",     name:"Helenium",                 qty:"2 stuks",  price:7.99,  pid:3},
+  {id:"s9", cat:"🌿 Planten — mei",     name:"Aster",                    qty:"2 stuks",  price:6.99,  pid:4},
+  {id:"s10",cat:"🌿 Planten — mei",     name:"Salvia nemorosa",          qty:"3 stuks",  price:6.99,  pid:5},
+  {id:"s11",cat:"🌿 Planten — mei",     name:"Achillea (duizendblad)",   qty:"2 stuks",  price:5.99,  pid:6},
+  {id:"s12",cat:"🌿 Planten — mei",     name:"Sedum spectabile",         qty:"2 stuks",  price:6.99,  pid:7},
+  {id:"s13",cat:"🌿 Planten — mei",     name:"Veronicastrum",            qty:"1 stuk",   price:8.99,  pid:1},
+  {id:"s14",cat:"🌿 Planten — mei",     name:"Digitalis geel",           qty:"2 stuks",  price:5.99,  pid:16},
+  {id:"s15",cat:"🌿 Planten — mei",     name:"Anthemis",                 qty:"2 stuks",  price:5.99,  pid:17},
+  {id:"s16",cat:"🍂 Bollen — oktober",  name:"Tulpenbollen gemengd",     qty:"30 stuks", price:8.99,  pid:13},
+  {id:"s17",cat:"🍂 Bollen — oktober",  name:"Muscari bollen",           qty:"20 stuks", price:4.99,  pid:12},
+  {id:"s18",cat:"🛒 Materialen",        name:"Potgrond / compost",       qty:"2 zakken", price:11.98, pid:null},
+  {id:"s19",cat:"🛒 Materialen",        name:"Langzaamwerkende meststof",qty:"1 pak",    price:9.99,  pid:null},
+  {id:"s20",cat:"🛒 Materialen",        name:"Boomschors / mulch",       qty:"1 zak",    price:7.99,  pid:null},
+  {id:"s21",cat:"🛒 Materialen",        name:"Snoeischaar",              qty:"1 stuk",   price:14.99, pid:null},
+  {id:"s22",cat:"🛒 Materialen",        name:"Plantenlabels + stift",    qty:"1 set",    price:3.99,  pid:null},
 ];
 
 const SCHEMA = [
-  {when:"🗓 Volgend weekend (april)",color:"#00b894",ids:[9,10,11,8,15,14],note:"Direct planten — vorst is vrijwel voorbij in Eindhoven"},
-  {when:"🗓 Mei (na 15 mei)",        color:"#f9ca24",ids:[2,6,1,3,7,4,16,17],note:"Na 15 mei — geen vorstrisico meer"},
-  {when:"🗓 Oktober (herfst)",       color:"#ff8b42",ids:[12,13],note:"Bollen altijd in de herfst planten voor lentebloeiers"},
+  {when:"🗓 Volgend weekend (april)", color:"#00b894", ids:[9,10,11,8,15,14], note:"Direct planten — vorst is vrijwel voorbij in Eindhoven"},
+  {when:"🗓 Mei (na 15 mei)",         color:"#d4ac0d", ids:[2,6,1,3,7,4,16,17], note:"Na 15 mei — geen vorstrisico meer"},
+  {when:"🗓 Oktober (herfst)",        color:"#ff8b42", ids:[12,13], note:"Bollen altijd in de herfst planten voor lentebloeiers"},
 ];
 
 const ROW_Y = {achter:70,midden:195,voor:315};
 const ROW_LABELS = {achter:"🌿 Achter — hoog (60–80 cm)",midden:"🌸 Midden (40–60 cm)",voor:"🌱 Voor — laag (15–40 cm)"};
 
-// Storage
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
 
-let todoDone = load("todo_done",{});
+let todoDone   = load("todo_done",{});
 let shopBought = load("shop_bought",{});
-let currentSeason = "Alle";
-let selectedPlant = null;
-let currentView = "gallery";
+let currentSeason   = "Alle";
+let selectedPlant   = null;
 
-// VIEWS
+function imgOrPlaceholder(p, cls, size) {
+  return `<img class="${cls}" src="${p.img}" alt="${p.name}"
+    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+    style="display:block"/>
+  <div class="${cls==='pcard-img'?'pcard-placeholder':'detail-placeholder'}"
+    style="display:none;width:${size}px;height:${size}px">
+    ${p.seasons.map(s=>EMOJI[s]).join("")}
+  </div>`;
+}
+
 function showView(v) {
-  currentView = v;
-  document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(el=>el.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(el=>el.classList.remove("active"));
   document.getElementById("view-"+v).classList.add("active");
-  document.querySelectorAll(".tab").forEach(el => {
+  document.querySelectorAll(".tab").forEach(el=>{
     if(el.getAttribute("onclick").includes("'"+v+"'")) el.classList.add("active");
   });
-  if(v==="todo") renderTodo();
-  if(v==="shop") renderShop();
+  if(v==="todo")   renderTodo();
+  if(v==="shop")   renderShop();
   if(v==="schema") renderSchema();
   if(v==="visual") renderVisual();
 }
 
-// GALLERY
-function filterSeason(s, btn) {
-  currentSeason = s;
-  document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("active"));
+function filterSeason(s,btn) {
+  currentSeason=s;
+  document.querySelectorAll(".fbtn").forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
   renderGallery();
 }
 
 function renderGallery() {
-  const grid = document.getElementById("plant-grid");
-  const plants = currentSeason === "Alle" ? PLANTS : PLANTS.filter(p => p.seasons.includes(currentSeason));
-  grid.innerHTML = plants.map(p => `
-    <div class="pcard" style="border:3px solid ${p.isNew?"#fdcb6e":p.color+"44"}" onclick="selectPlant(${p.id},'gallery')">
-      <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'"/>
+  const plants = currentSeason==="Alle" ? PLANTS : PLANTS.filter(p=>p.seasons.includes(currentSeason));
+  document.getElementById("plant-grid").innerHTML = plants.map(p=>`
+    <div class="pcard" style="border:3px solid ${p.color}55" onclick="selectPlant(${p.id},'gallery')">
+      ${imgOrPlaceholder(p,'pcard-img',200)}
       <div class="pinfo">
-        <div class="pname" style="color:${p.color}">${p.name}${p.isNew?'<span class="newbadge">✨ Nieuw</span>':''}</div>
+        <div class="pname" style="color:${p.color}">${p.name}</div>
         <div class="pmeta">🌸 ${p.bloom} &nbsp;·&nbsp; 📏 ${p.height}</div>
         <div>${p.seasons.map(s=>`<span class="sbadge" style="background:${SC[s]}">${s}</span>`).join("")}</div>
-        <div class="ptip" style="margin-top:6px">💡 ${p.tip}</div>
+        <div class="ptip">💡 ${p.tip}</div>
       </div>
     </div>`).join("");
 }
 
-function selectPlant(id, context) {
-  const p = PLANTS.find(x => x.id === id);
-  selectedPlant = (selectedPlant && selectedPlant.id === id) ? null : p;
-  const panel = document.getElementById(context==="gallery"?"detail-panel":"visual-detail");
-  const hint = document.getElementById("visual-hint");
-  if (!selectedPlant) {
-    panel.classList.remove("show");
-    if(hint) hint.style.display="block";
-    return;
-  }
+function selectPlant(id, ctx) {
+  const p = PLANTS.find(x=>x.id===id);
+  selectedPlant = (selectedPlant&&selectedPlant.id===id) ? null : p;
+  const panel = document.getElementById(ctx==="gallery"?"detail-panel":"visual-detail");
+  const hint  = document.getElementById("visual-hint");
+  if (!selectedPlant) { panel.classList.remove("show"); if(hint) hint.style.display="block"; return; }
   if(hint) hint.style.display="none";
   panel.style.background = selectedPlant.color+"18";
   panel.style.border = "3px solid "+selectedPlant.color;
   panel.innerHTML = `
-    <img src="${selectedPlant.img}" alt="${selectedPlant.name}" onerror="this.style.display='none'"/>
+    ${imgOrPlaceholder(selectedPlant,'detail-img',140)}
     <div class="detail-info">
-      <h2 style="color:${selectedPlant.color};margin-bottom:8px">${selectedPlant.name}${selectedPlant.isNew?'<span class="newbadge">✨ Nieuw</span>':''}</h2>
+      <h2 style="color:${selectedPlant.color};margin-bottom:8px">${selectedPlant.name}</h2>
       <p style="margin-bottom:6px">🌸 <b>${selectedPlant.bloom}</b> &nbsp;·&nbsp; 📏 <b>${selectedPlant.height}</b></p>
-      <p style="margin-bottom:8px">${selectedPlant.seasons.map(s=>`<span class="sbadge" style="background:${SC[s]}">${s}</span>`).join("")}</p>
+      <p style="margin-bottom:10px">${selectedPlant.seasons.map(s=>`<span class="sbadge" style="background:${SC[s]}">${s}</span>`).join("")}</p>
       <p style="color:#444">💡 ${selectedPlant.tip}</p>
-      <button class="closebtn" onclick="selectPlant(${selectedPlant.id},'${context}')">✕ Sluiten</button>
+      <button class="closebtn" onclick="selectPlant(${selectedPlant.id},'${ctx}')">✕ Sluiten</button>
     </div>`;
   panel.classList.add("show");
 }
 
-// VISUAL
 function renderVisual() {
   const svg = document.getElementById("visual-svg");
   const rowBg = {achter:"#ffeaa7",midden:"#dfe6e9",voor:"#c8f7e4"};
-  let html = "";
-  Object.entries(ROW_Y).forEach(([row,y]) => {
-    html += `<rect x="4" y="${y-52}" width="752" height="118" rx="10" fill="${rowBg[row]}" opacity="0.55"/>`;
-    html += `<text x="14" y="${y-30}" font-size="13" fill="#555" font-style="italic" font-family="Lato,sans-serif">${ROW_LABELS[row]}</text>`;
+  let h="";
+  Object.entries(ROW_Y).forEach(([row,y])=>{
+    h+=`<rect x="4" y="${y-52}" width="752" height="118" rx="10" fill="${rowBg[row]}" opacity="0.55"/>`;
+    h+=`<text x="14" y="${y-30}" font-size="13" fill="#555" font-style="italic" font-family="Lato,sans-serif">${ROW_LABELS[row]}</text>`;
   });
-  PLANTS.forEach(p => {
-    const x = 44 + p.pos*128, y = ROW_Y[p.row];
-    if(p.isNew) html += `<circle cx="${x}" cy="${y}" r="40" fill="#fdcb6e" opacity="0.35"/>`;
-    html += `<circle cx="${x}" cy="${y}" r="32" fill="${p.color}" opacity="0.92" stroke="${p.isNew?"#fdcb6e":"white"}" stroke-width="2" style="cursor:pointer" onclick="selectPlant(${p.id},'visual')"/>`;
-    if(p.isNew) html += `<text x="${x+23}" y="${y-24}" font-size="13" style="pointer-events:none">✨</text>`;
-    const words = p.name.split(" ");
-    html += `<text x="${x}" y="${y-3}" text-anchor="middle" font-size="9" fill="white" font-weight="bold" font-family="Lato,sans-serif" style="pointer-events:none">${words[0]}</text>`;
-    if(words[1]) html += `<text x="${x}" y="${y+10}" text-anchor="middle" font-size="8" fill="white" font-family="Lato,sans-serif" style="pointer-events:none">${words[1]}</text>`;
-    html += `<text x="${x}" y="${y+52}" text-anchor="middle" font-size="10" fill="#555" font-family="Lato,sans-serif" style="pointer-events:none">${p.height}</text>`;
+  PLANTS.forEach(p=>{
+    const x=44+p.pos*128, y=ROW_Y[p.row];
+    h+=`<circle cx="${x}" cy="${y}" r="32" fill="${p.color}" opacity="0.92" stroke="white" stroke-width="2" style="cursor:pointer" onclick="selectPlant(${p.id},'visual')"/>`;
+    const words=p.name.split(" ");
+    h+=`<text x="${x}" y="${y-3}" text-anchor="middle" font-size="9" fill="white" font-weight="bold" font-family="Lato,sans-serif" style="pointer-events:none">${words[0]}</text>`;
+    if(words[1]) h+=`<text x="${x}" y="${y+10}" text-anchor="middle" font-size="8" fill="white" font-family="Lato,sans-serif" style="pointer-events:none">${words[1]}</text>`;
+    h+=`<text x="${x}" y="${y+52}" text-anchor="middle" font-size="10" fill="#555" font-family="Lato,sans-serif" style="pointer-events:none">${p.height}</text>`;
   });
-  svg.innerHTML = html;
+  svg.innerHTML=h;
 }
 
-// SCHEMA
 function renderSchema() {
-  const el = document.getElementById("view-schema");
-  el.innerHTML = SCHEMA.map(s => `
+  document.getElementById("view-schema").innerHTML = SCHEMA.map(s=>`
     <div class="scard" style="border-left:6px solid ${s.color}">
       <h2 style="color:${s.color};margin-bottom:14px">${s.when}</h2>
       <div class="sitems">
-        ${s.ids.map(id => {
-          const p = PLANTS.find(x=>x.id===id); if(!p) return "";
-          return `<div class="sitem" style="background:${p.isNew?"#fff9e6":"#f5f6fa"};border:2px solid ${p.isNew?"#fdcb6e":"transparent"}">
-            <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'" style="width:36px;height:36px;border-radius:8px;object-fit:cover"/>
-            <span>${p.isNew?"✨ ":""}${p.name}</span>
+        ${s.ids.map(id=>{
+          const p=PLANTS.find(x=>x.id===id); if(!p) return "";
+          return `<div class="sitem">
+            <img class="sitem-img" src="${p.img}" alt="${p.name}" onerror="this.style.display='none'"/>
+            <span>${p.name}</span>
           </div>`;
         }).join("")}
       </div>
       <div class="snote">ℹ️ ${s.note}</div>
-    </div>`).join("") + `
-    <div class="tip-box">
-      <h3>💡 Tips voor volgend weekend</h3>
-      <ul>
-        <li>Eerst de bak volledig leegmaken en munt uitgraven inclusief wortels</li>
-        <li>Verse potgrond of compost bijvullen (± 10 cm laag)</li>
-        <li>Sterjasmijn netjes vastsnoeren langs het gaas</li>
-        <li>De vroege planten direct aanplanten en goed aangieten</li>
-        <li>Nepeta en Campanula kunnen ook al mee deze ronde!</li>
-      </ul>
-    </div>`;
+    </div>`).join("")+`
+  <div class="tip-box">
+    <h3>💡 Tips voor volgend weekend</h3>
+    <ul>
+      <li>Eerst de bak volledig leegmaken en munt uitgraven inclusief wortels</li>
+      <li>Verse potgrond of compost bijvullen (± 10 cm laag)</li>
+      <li>Sterjasmijn netjes vastsnoeren langs het gaas</li>
+      <li>De vroege planten direct aanplanten en goed aangieten</li>
+      <li>Nepeta en Campanula kunnen ook meteen mee!</li>
+    </ul>
+  </div>`;
 }
 
-// TODO
-function toggleTodo(id) {
-  todoDone[id] = !todoDone[id];
-  save("todo_done", todoDone);
-  renderTodo();
-}
-function resetTodo() {
-  todoDone = {}; save("todo_done", todoDone); renderTodo();
-}
+function checkSVG(){return`<svg width="14" height="14" viewBox="0 0 14 14"><polyline points="2,7 6,11 12,3" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
+
+function toggleTodo(id){ todoDone[id]=!todoDone[id]; save("todo_done",todoDone); renderTodo(); }
+function resetTodo(){ todoDone={}; save("todo_done",todoDone); renderTodo(); }
 function renderTodo() {
-  const el = document.getElementById("view-todo");
-  const total = TODO_ITEMS.length;
-  const done = TODO_ITEMS.filter(t => todoDone[t.id]).length;
-  const pct = Math.round((done/total)*100);
-  const msg = done===0?"Nog niet begonnen — succes dit weekend! 💪":done===total?"Alles klaar! De border is klaar voor een prachtig seizoen 🎉🌸":`Lekker bezig! Nog ${total-done} taken te gaan 🌱`;
-  const cats = [...new Set(TODO_ITEMS.map(t=>t.cat))];
-  el.innerHTML = `
+  const total=TODO_ITEMS.length, done=TODO_ITEMS.filter(t=>todoDone[t.id]).length;
+  const pct=Math.round((done/total)*100);
+  const msg=done===0?"Nog niet begonnen — succes dit weekend! 💪":done===total?"Alles klaar! De border is klaar voor een prachtig seizoen 🎉🌸":`Lekker bezig! Nog ${total-done} taken te gaan 🌱`;
+  const cats=[...new Set(TODO_ITEMS.map(t=>t.cat))];
+  document.getElementById("view-todo").innerHTML=`
     <div class="progress-wrap">
       <div class="prog-top"><h2>✅ Voortgang</h2><span class="prog-score">${done} / ${total}</span></div>
       <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
@@ -360,46 +358,43 @@ function renderTodo() {
       ${TODO_ITEMS.filter(t=>t.cat===cat).map(t=>`
         <div class="crow${todoDone[t.id]?" done":""}" onclick="toggleTodo('${t.id}')">
           <div class="cb${todoDone[t.id]?" on":""}">
-            ${todoDone[t.id]?'<svg width="14" height="14" viewBox="0 0 14 14"><polyline points="2,7 6,11 12,3" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':""}
+            ${todoDone[t.id]?checkSVG():""}
           </div>
           <div style="flex:1"><div class="ctxt">${t.text}</div><div class="csub">${t.sub}</div></div>
         </div>`).join("")}`).join("")}
     <button class="resetbtn" onclick="resetTodo()">🔄 Alles opnieuw instellen</button>`;
 }
 
-// SHOP
-function toggleShop(id) {
-  shopBought[id] = !shopBought[id];
-  save("shop_bought", shopBought);
-  renderShop();
-}
-function resetShop() {
-  shopBought = {}; save("shop_bought", shopBought); renderShop();
-}
+function toggleShop(id){ shopBought[id]=!shopBought[id]; save("shop_bought",shopBought); renderShop(); }
+function resetShop(){ shopBought={}; save("shop_bought",shopBought); renderShop(); }
 function renderShop() {
-  const el = document.getElementById("view-shop");
-  const total = SHOP_ITEMS.reduce((a,s)=>a+s.price,0);
-  const remaining = SHOP_ITEMS.filter(s=>!shopBought[s.id]).reduce((a,s)=>a+s.price,0);
-  const boughtN = SHOP_ITEMS.filter(s=>shopBought[s.id]).length;
-  const pct = Math.round((boughtN/SHOP_ITEMS.length)*100);
-  const cats = [...new Set(SHOP_ITEMS.map(s=>s.cat))];
-  el.innerHTML = `
+  const total=SHOP_ITEMS.reduce((a,s)=>a+s.price,0);
+  const remaining=SHOP_ITEMS.filter(s=>!shopBought[s.id]).reduce((a,s)=>a+s.price,0);
+  const bN=SHOP_ITEMS.filter(s=>shopBought[s.id]).length;
+  const pct=Math.round((bN/SHOP_ITEMS.length)*100);
+  const cats=[...new Set(SHOP_ITEMS.map(s=>s.cat))];
+  document.getElementById("view-shop").innerHTML=`
     <div class="progress-wrap">
-      <div class="prog-top"><h2>🛒 Overzicht</h2><span class="prog-score">${boughtN} / ${SHOP_ITEMS.length} aangeschaft</span></div>
+      <div class="prog-top"><h2>🛒 Boodschappenlijst</h2><span class="prog-score">${bN} / ${SHOP_ITEMS.length}</span></div>
       <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
       <p style="margin-top:8px;color:#636e72;font-size:.95rem">Totaal budget: <b>€${total.toFixed(2)}</b> &nbsp;·&nbsp; Nog te kopen: <b style="color:#e17055">€${remaining.toFixed(2)}</b></p>
     </div>
     ${cats.map(cat=>`
       <div class="cathead">${cat}</div>
-      ${SHOP_ITEMS.filter(s=>s.cat===cat).map(s=>`
-        <div class="shrow${shopBought[s.id]?" bought":""}" onclick="toggleShop('${s.id}')">
+      ${SHOP_ITEMS.filter(s=>s.cat===cat).map(s=>{
+        const p = s.pid ? PLANTS.find(x=>x.id===s.pid) : null;
+        return `<div class="shrow${shopBought[s.id]?" bought":""}" onclick="toggleShop('${s.id}')">
           <div class="cb${shopBought[s.id]?" on":""}">
-            ${shopBought[s.id]?'<svg width="14" height="14" viewBox="0 0 14 14"><polyline points="2,7 6,11 12,3" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':""}
+            ${shopBought[s.id]?checkSVG():""}
           </div>
-          ${s.img?`<img class="shimg" src="${s.img}" alt="${s.name}" onerror="this.style.display='none'"/>`:`<div class="shicon">🛍</div>`}
+          ${p
+            ? `<img class="shimg" src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="shicon" style="display:none">🌿</div>`
+            : `<div class="shicon">🛍</div>`
+          }
           <div style="flex:1"><div class="ctxt">${s.name}</div><div class="csub">${s.qty}</div></div>
           <div class="price">€${s.price.toFixed(2)}</div>
-        </div>`).join("")}`).join("")}
+        </div>`;
+      }).join("")}`).join("")}
     <div class="total-bar">
       <div><div class="lbl">Totale investering</div><div class="amt">€${total.toFixed(2)}</div></div>
       <div style="text-align:right"><div class="lbl">Nog te kopen</div><div class="amt">€${remaining.toFixed(2)}</div></div>
@@ -407,7 +402,6 @@ function renderShop() {
     <button class="resetbtn" onclick="resetShop()">🔄 Alles opnieuw instellen</button>`;
 }
 
-// INIT
 renderGallery();
 renderVisual();
 </script>
